@@ -70,7 +70,14 @@
     <footer>
         <p>斯人若彩虹，遇上方知有</p>
     </footer>
-
+    <!-- 极简音乐播放器 -->
+    <div class="music-player">
+        <!-- 这里的 src 路径要对应你真实的音乐文件存放位置 -->
+        <audio id="bgMusic" loop>
+            <source src="music/wbintolove.mp3" type="audio/mpeg">
+        </audio>
+        <button id="musicBtn" class="music-btn">🎵 Play Music</button>
+    </div>
     <!-- 计时器 -->
     <script>
         function initLoveTimer() {
