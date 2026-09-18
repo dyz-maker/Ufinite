@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>Ufinite</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Ufinite</h1>
+        <p>U find ideal nature in the eyes</p>
+    </header>
+
+    <!-- 计时器 -->
+    <div class="love-timer-container">
+        <div id="loveTimer" class="love-timer"></div>
+        <div class="timer-subtitle">“活到800岁”</div>
+    </div>
+
+    <!-- 相册画廊 -->
+    <main class="gallery">
+        <div class="photo">
+            <img src="images/1.jpg" alt="云1">
+            <p>老师画的好看爱心云</p>
+        </div>
+        <div class="photo">
+            <img src="images/2.jpg" alt="合照">
+            <p>吴老师的佳作</p>
+        </div>
+        <div class="photo">
+            <img src="images/3.jpg" alt="云2">
+            <p>老师画的不太好看爱心云</p>
+        </div>
+    </main>
+
+    <!-- 心动回忆录 -->
+    <section class="memory-section">
+        <div class="memory-header">
+            <h2>记录一下</h2>
+        </div>
+<!-- 回忆1 -->
+            <div class="memory-item">
+                <div class="memory-date">2020.03.30</div>
+                <div class="memory-content">
+                    <div class="memory-title">Ufinite正式成立</div>
+                    <div class="memory-text">有人想当鸭子的爸爸？？不能理解</div>
+                </div>
+            </div>
+        </div>
+        <div class="memory-timeline">
+            <!-- 回忆2 -->
+            <div class="memory-item">
+                <div class="memory-date">2026.09.06.凌晨</div>
+                <div class="memory-content">
+                    <div class="memory-title">我们关系的开始</div>
+                    <div class="memory-text">wmt口出狂言。</div>
+                </div>
+            </div>
+            <!-- 回忆3 -->
+            <div class="memory-item">
+                <div class="memory-date">2025.09.11-13</div>
+                <div class="memory-content">
+                    <div class="memory-title">第一次约会</div>
+                    <div class="memory-text">上海共青森林公园</div>
+                </div>
+            </div>
+            
+    </section>
+
+    <footer>
+        <p>斯人若彩虹，遇上方知有</p>
+    </footer>
+
+    <!-- 计时器 -->
+    <script>
+        function initLoveTimer() {
+            const startDate = new Date('2026-09-06');
+            function updateLoveTimer() {
+                const now = new Date();
+                const diff = now - startDate;
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('loveTimer').innerHTML = 
+                    `童洲同舟的第 <span class="highlight">${days}</span> 天 
+                    <span class="highlight">${hours}</span> 时 
+                    <span class="highlight">${minutes}</span> 分 
+                    <span class="highlight">${seconds}</span> 秒`;
+            }
+            updateLoveTimer();
+            setInterval(updateLoveTimer, 1000);
+        }
+        document.addEventListener('DOMContentLoaded', initLoveTimer);
+
+        const audio = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+
+        musicBtn.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.play();
+                musicBtn.innerHTML = '⏸ Pause Music';
+                musicBtn.classList.add('playing'); // 播放时改变按钮样式
+            } else {
+                audio.pause();
+                musicBtn.innerHTML = '🎵 Play Music';
+                musicBtn.classList.remove('playing'); // 暂停时恢复样式
+            }
+        });
+    </script>
+</body>
+</html>
