@@ -195,36 +195,22 @@ function initLoveTimer() {
 ========================================================= */
 
 function initWelcomeCover() {
+    const cover = document.getElementById("welcomeCover");
+    const enterButton = document.getElementById("enterButton");
 
-    const enterBtn =
-        document.getElementById("enterBtn");
+    if (!cover || !enterButton) return;
 
-    const welcomeCover =
-        document.getElementById("welcomeCover");
+    enterButton.addEventListener("click", () => {
 
-    if (!enterBtn || !welcomeCover) return;
+        // 1. 立即进入主页，不等待音乐
+        cover.classList.add("hidden");
+        document.body.classList.remove("welcome-active");
 
-
-    enterBtn.addEventListener("click", async function () {
-
-        /*
-         * 这里的 click 是用户主动操作，
-         * 因此可以尝试启动音乐。
-         */
-        await playMusic();
-
-
-        /*
-         * 隐藏欢迎封面
-         */
-        welcomeCover.classList.add("hidden");
-
-        document.body.classList.remove(
-            "welcome-active"
-        );
-
+        // 2. 在用户点击事件中尝试播放音乐
+        playMusic().catch(error => {
+            console.warn("音乐播放失败，但不影响进入主页：", error);
+        });
     });
-
 }
 
 
