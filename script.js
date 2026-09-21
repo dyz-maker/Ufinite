@@ -485,38 +485,45 @@ function initGalleryInteraction() {
     /* -----------------------------------------------------
        自动滚动
     ----------------------------------------------------- */
+// 新增：使用独立变量保存精确的滚动值
+let exactScrollLeft = gallery.scrollLeft;
 
     function autoScroll() {
 
-        /*
-         * 只要用户没有拖动，
-         * 就持续自动向右移动。
-         */
         if (
             siteConfig.autoScroll &&
             !isDragging &&
             canScroll()
         ) {
+            
+            // 如果用户手动滑动了相册，将 exactScrollLeft 与实际 scrollLeft 同步
+            if (Math.abs(gallery.scrollLeft - exactScrollLeft) > 1) {
+                exactScrollLeft = gallery.scrollLeft;
+            }
 
-            gallery.scrollLeft +=
-                siteConfig.autoScrollSpeed;
-
+            // 在独立变量上累加小数速度
+            exactScrollLeft += siteConfig.autoScrollSpeed;
 
             /*
              * 到达最右侧以后回到最左侧
              */
             if (
-                gallery.scrollLeft >=
+                exactScrollLeft >=
                 gallery.scrollWidth -
                 gallery.clientWidth -
                 1
             ) {
-
-                gallery.scrollLeft = 0;
-
+                exactScrollLeft = 0;
             }
+            
+            // 将累加后的精确值赋给滚动条
+            gallery.scrollLeft = exactScrollLeft;
 
         }
+
+        requestAnimationFrame(autoScroll);
+
+    }
 
 
         requestAnimationFrame(autoScroll);
