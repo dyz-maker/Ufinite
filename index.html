@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
 
-    <!-- 手机端关键配置 -->
+    <!-- 移动端适配 -->
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
@@ -16,1167 +17,148 @@
 
 <body>
 
-<!-- =====================================================
-     欢迎进入主页的封面遮罩
-===================================================== -->
-<div id="welcomeCover" class="welcome-cover">
+    <!-- =========================================
+         欢迎进入主页的封面遮罩
+    ========================================== -->
+    <div id="welcomeCover" class="welcome-cover">
 
-    <div class="welcome-content">
+        <div class="welcome-content">
 
-        <h2>❤️ 欢迎光临童童洲洲的主页 ❤️</h2>
+            <h2>❤️ 欢迎光临童童洲洲的主页 ❤️</h2>
 
-        <p>点击下方按钮，进入Ufinite~</p>
+            <p>
+                点击下方按钮，进入 Ufinite~
+            </p>
 
-        <button id="enterBtn" class="enter-btn">
-            ✨ 进入主页 ✨
+            <button id="enterBtn" class="enter-btn">
+                ✨ 进入主页 ✨
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         页面头部
+    ========================================== -->
+    <header>
+
+        <h1>Ufinite</h1>
+
+        <p>
+            U find ideal nature in the eyes
+        </p>
+
+    </header>
+
+
+    <!-- =========================================
+         爱情计时器
+    ========================================== -->
+    <section class="love-timer-container">
+
+        <div id="loveTimer" class="love-timer"></div>
+
+        <div class="timer-subtitle">
+            “活到800岁”
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         相册画廊
+         
+         注意：
+         这里不再手写照片。
+         所有照片由 data.js + script.js 自动生成。
+    ========================================== -->
+    <main id="gallery" class="gallery"></main>
+
+
+    <!-- =========================================
+         心动回忆录
+         
+         所有内容同样由 data.js 自动生成
+    ========================================== -->
+    <section class="memory-section">
+
+        <div class="memory-header">
+
+            <h2>记录一下</h2>
+
+        </div>
+
+        <div id="memoryTimeline" class="memory-timeline"></div>
+
+    </section>
+
+
+    <!-- =========================================
+         页脚
+    ========================================== -->
+    <footer>
+
+        <p>
+            斯人若彩虹，遇上方知有
+        </p>
+
+    </footer>
+
+
+    <!-- =========================================
+         音乐播放器
+    ========================================== -->
+    <div class="music-player">
+
+        <audio id="bgMusic" loop>
+            <source src="music/wbintolove.mp3" type="audio/mpeg">
+        </audio>
+
+        <button id="musicBtn" class="music-btn">
+            🎵 Play Music
         </button>
 
     </div>
 
-</div>
 
+    <!-- =========================================
+         图片预览弹窗
+    ========================================== -->
+    <div id="imageModal" class="image-modal">
 
-<!-- =====================================================
-     页面头部
-===================================================== -->
-<header>
-
-    <h1>Ufinite</h1>
-
-    <p>
-        U find ideal nature in the eyes
-    </p>
-
-</header>
-
-
-<!-- =====================================================
-     爱情计时器
-===================================================== -->
-<div class="love-timer-container">
-
-    <div id="loveTimer" class="love-timer"></div>
-
-    <div class="timer-subtitle">
-        “活到800岁”
-    </div>
-
-</div>
-
-
-<!-- =====================================================
-     相册画廊
-===================================================== -->
-<main class="gallery">
-
-    <!-- 1 -->
-    <div class="photo landscape">
+        <button
+            id="modalClose"
+            class="modal-close"
+            aria-label="关闭图片">
+            &times;
+        </button>
 
         <img
-            src="images/202609111.jpg"
-            alt="First Dinner：wmt200元蛋炒饭"
-            draggable="false"
-        >
-
-        <p>2026.09.11</p>
-
-        <p>
-            First Dinner：wmt200元蛋炒饭
-        </p>
-
-    </div>
-
-
-    <!-- 2 -->
-    <div class="photo">
-
-        <img
-            src="images/202609112.jpg"
-            alt="给小猫照镜子"
-            draggable="false"
-        >
-
-        <p>2026.09.12</p>
-
-        <p>给小猫照镜子</p>
-
-    </div>
-
-
-    <!-- 3 -->
-    <div class="photo">
-
-        <img
-            src="images/202609121.jpg"
-            alt="First Date：上海共青公园"
-            draggable="false"
-        >
-
-        <p>2026.09.12</p>
-
-        <p>First Date：上海共青公园</p>
-
-    </div>
-
-
-    <!-- 4 -->
-    <div class="photo">
-
-        <img
-            src="images/202609123.jpg"
-            alt="梧桐与🍁"
-            draggable="false"
-        >
-
-        <p>2026.09.12</p>
-
-        <p>梧桐与🍁</p>
-
-    </div>
-
-
-    <!-- 5 -->
-    <div class="photo landscape">
-
-        <img
-            src="images/202609124.jpg"
-            alt="波光粼粼的静谧油画"
-            draggable="false"
-        >
-
-        <p>2026.09.12</p>
-
-        <p>波光粼粼的静谧油画</p>
-
-    </div>
-
-
-    <!-- 6 -->
-    <div class="photo landscape">
-
-        <img
-            src="images/202609122.jpg"
-            alt="一起做的晚饭：有咸醋排骨"
-            draggable="false"
-        >
-
-        <p>2026.09.12</p>
-
-        <p>一起做的晚饭：有咸醋排骨</p>
-
-    </div>
-
-
-    <!-- 7 -->
-    <div class="photo landscape">
-
-        <img
-            src="images/202609125.jpg"
-            alt="Monopoly!"
-            draggable="false"
-        >
-
-        <p>2026.09.12</p>
-
-        <p>Monopoly!</p>
-
-    </div>
-
-
-    <!-- 8 -->
-    <div class="photo landscape">
-
-        <img
-            src="images/202609131.jpg"
-            alt="First KTV：嗯？？好像有人动嘴"
-            draggable="false"
-        >
-
-        <p>2026.09.13</p>
-
-        <p>First KTV：嗯？？好像有人动嘴</p>
-
-    </div>
-
-
-    <!-- 9 -->
-    <div class="photo">
-
-        <img
-            src="images/202609141.jpg"
-            alt="童童的云"
-            draggable="false"
-        >
-
-        <p>2026.09.14</p>
-
-        <p>童童的云</p>
-
-    </div>
-
-
-    <!-- 10 -->
-    <div class="photo">
-
-        <img
-            src="images/202609142.jpg"
-            alt="洲洲的云"
-            draggable="false"
-        >
-
-        <p>2026.09.14</p>
-
-        <p>洲洲的云</p>
-
-    </div>
-
-
-    <!-- 11 -->
-    <div class="photo">
-
-        <img
-            src="images/secret/202609201.jpg"
-            alt="线上100Days【仅离线】"
-            draggable="false"
-        >
-
-        <p>2026.09.21</p>
-
-        <p>线上100Days</p>
-
-    </div>
-
-</main>
-
-
-<!-- =====================================================
-     心动回忆录
-===================================================== -->
-<section class="memory-section">
-
-    <div class="memory-header">
-
-        <h2>记录一下</h2>
-
-    </div>
-
-
-    <div class="memory-timeline">
-
-        <!-- 回忆1 -->
-        <div class="memory-item">
-
-            <div class="memory-date">
-                2020.03.30
-            </div>
-
-            <div class="memory-content">
-
-                <div class="memory-title">
-                    Ufinite正式成立
-                </div>
-
-                <div class="memory-text">
-                    有人想当鸭子的爸爸？？不能理解
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- 回忆2 -->
-        <div class="memory-item">
-
-            <div class="memory-date">
-                2026.09.06.凌晨
-            </div>
-
-            <div class="memory-content">
-
-                <div class="memory-title">
-                    我们关系的开始
-                </div>
-
-                <div class="memory-text">
-                    wmt口出狂言。
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- 回忆3 -->
-        <div class="memory-item">
-
-            <div class="memory-date">
-                2025.09.11-13
-            </div>
-
-            <div class="memory-content">
-
-                <div class="memory-title">
-                    第一次约会
-                </div>
-
-                <div class="memory-text">
-                    上海共青森林公园
-                </div>
-
-            </div>
-
+            id="modalImage"
+            src=""
+            alt="大图预览">
+
+        <div
+            id="modalCaption"
+            class="modal-caption">
         </div>
 
     </div>
 
-</section>
 
-
-<!-- =====================================================
-     页脚
-===================================================== -->
-<footer>
-
-    <p>
-        斯人若彩虹，遇上方知有
-    </p>
-
-</footer>
-
-
-<!-- =====================================================
-     音乐播放器
-===================================================== -->
-<div class="music-player">
-
-    <audio id="bgMusic" loop preload="auto">
-
-        <source
-            src="music/wbintolove.mp3"
-            type="audio/mpeg"
-        >
-
-    </audio>
-
-    <button id="musicBtn" class="music-btn">
-        🎵 Play Music
-    </button>
-
-</div>
-
-
-<!-- =====================================================
-     图片预览弹窗
-===================================================== -->
-<div id="imageModal" class="image-modal">
-
-    <span
-        class="modal-close"
-        id="modalClose"
-    >
-        &times;
-    </span>
-
-
-    <img
-        id="modalImage"
-        src=""
-        alt="大图预览"
-    >
-
-
-    <div
-        id="modalCaption"
-        class="modal-caption"
-    ></div>
-
-</div>
-
-
-<!-- =====================================================
-     JavaScript
-===================================================== -->
-<script>
-
-document.addEventListener(
-    'DOMContentLoaded',
-    function () {
-
-
-    /* =================================================
-       1. 爱情计时器
-    ================================================= */
-
-    function initLoveTimer() {
-
-        const startDate = new Date(
-            '2026-09-06T00:00:00'
-        );
-
-
-        function updateLoveTimer() {
-
-            const now = new Date();
-
-            const diff = now - startDate;
-
-
-            if (diff < 0) {
-                return;
-            }
-
-
-            const days =
-                Math.floor(
-                    diff /
-                    (1000 * 60 * 60 * 24)
-                );
-
-
-            const hours =
-                Math.floor(
-                    (diff %
-                        (1000 * 60 * 60 * 24)
-                    ) /
-                    (1000 * 60 * 60)
-                );
-
-
-            const minutes =
-                Math.floor(
-                    (diff %
-                        (1000 * 60 * 60)
-                    ) /
-                    (1000 * 60)
-                );
-
-
-            const seconds =
-                Math.floor(
-                    (diff %
-                        (1000 * 60)
-                    ) /
-                    1000
-                );
-
-
-            const timer =
-                document.getElementById(
-                    'loveTimer'
-                );
-
-
-            if (timer) {
-
-                timer.innerHTML =
-
-                    `童洲同舟的第
-                    <span class="highlight">${days}</span> 天
-                    <span class="highlight">${hours}</span> 时
-                    <span class="highlight">${minutes}</span> 分
-                    <span class="highlight">${seconds}</span> 秒`;
-
-            }
-
-        }
-
-
-        updateLoveTimer();
-
-        setInterval(
-            updateLoveTimer,
-            1000
-        );
-
-    }
-
-
-    initLoveTimer();
-
-
-
-    /* =================================================
-       2. 欢迎遮罩 + 音乐
-    ================================================= */
-
-    const enterBtn =
-        document.getElementById(
-            'enterBtn'
-        );
-
-
-    const welcomeCover =
-        document.getElementById(
-            'welcomeCover'
-        );
-
-
-    const audio =
-        document.getElementById(
-            'bgMusic'
-        );
-
-
-    const musicBtn =
-        document.getElementById(
-            'musicBtn'
-        );
-
-
-    if (
-        enterBtn &&
-        welcomeCover
-    ) {
-
-        enterBtn.addEventListener(
-            'click',
-            function () {
-
-
-                /*
-                 * 先关闭遮罩
-                 *
-                 * 音乐即使播放失败，
-                 * 也不会影响主页进入。
-                 */
-
-                welcomeCover.classList.add(
-                    'hidden'
-                );
-
-
-                /*
-                 * 尝试播放音乐
-                 */
-
-                if (audio) {
-
-                    audio.play()
-                        .then(
-                            function () {
-
-                                if (musicBtn) {
-
-                                    musicBtn.innerHTML =
-                                        '⏸ Pause Music';
-
-                                    musicBtn.classList.add(
-                                        'playing'
-                                    );
-
-                                }
-
-                            }
-                        )
-                        .catch(
-                            function (error) {
-
-                                console.log(
-                                    '音乐播放失败：',
-                                    error
-                                );
-
-                            }
-                        );
-
-                }
-
-            }
-        );
-
-    }
-
-
-
-    /* =================================================
-       3. 音乐播放器
-    ================================================= */
-
-    if (
-        musicBtn &&
-        audio
-    ) {
-
-        musicBtn.addEventListener(
-            'click',
-            function () {
-
-                if (audio.paused) {
-
-                    audio.play()
-                        .then(
-                            function () {
-
-                                musicBtn.innerHTML =
-                                    '⏸ Pause Music';
-
-                                musicBtn.classList.add(
-                                    'playing'
-                                );
-
-                            }
-                        )
-                        .catch(
-                            function (error) {
-
-                                console.log(
-                                    '音乐播放失败：',
-                                    error
-                                );
-
-                            }
-                        );
-
-                }
-
-                else {
-
-                    audio.pause();
-
-                    musicBtn.innerHTML =
-                        '🎵 Play Music';
-
-                    musicBtn.classList.remove(
-                        'playing'
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-
-    /* =================================================
-       4. 横向画廊
-          自动滚动 + 鼠标拖动 + 手机触摸
-    ================================================= */
-
-    const gallery =
-        document.querySelector(
-            '.gallery'
-        );
-
-
-    if (gallery) {
-
-
-        let isDown = false;
-
-        let startX = 0;
-
-        let scrollStart = 0;
-
-        let lastX = 0;
-
-        let velocity = 0;
-
-        let momentumID = null;
-
-        let isDragging = false;
-
-
-
-        /* ---------------------------------------------
-           自动滚动
-        --------------------------------------------- */
-
-        function autoScroll() {
-
-
-            /*
-             * 用户没有拖动，
-             * 并且没有惯性滚动时，
-             * 自动向右滚动。
-             */
-
-            if (
-                !isDown &&
-                Math.abs(velocity) < 0.5
-            ) {
-
-                gallery.scrollLeft += 0.8;
-
-
-                /*
-                 * 到达最右侧以后回到开头
-                 */
-
-                if (
-                    gallery.scrollLeft >=
-                    gallery.scrollWidth -
-                    gallery.clientWidth -
-                    2
-                ) {
-
-                    gallery.scrollLeft = 0;
-
-                }
-
-            }
-
-
-            requestAnimationFrame(
-                autoScroll
-            );
-
-        }
-
-
-        requestAnimationFrame(
-            autoScroll
-        );
-
-
-
-        /* ---------------------------------------------
-           获取鼠标 / 手指 X 坐标
-        --------------------------------------------- */
-
-        function getX(e) {
-
-            if (
-                e.type.startsWith(
-                    'mouse'
-                )
-            ) {
-
-                return e.pageX;
-
-            }
-
-
-            return e.touches[0].pageX;
-
-        }
-
-
-
-        /* ---------------------------------------------
-           开始拖动
-        --------------------------------------------- */
-
-        function startDrag(e) {
-
-            isDown = true;
-
-            isDragging = false;
-
-
-            startX = getX(e);
-
-            lastX = startX;
-
-
-            scrollStart =
-                gallery.scrollLeft;
-
-
-            velocity = 0;
-
-
-            if (momentumID) {
-
-                cancelAnimationFrame(
-                    momentumID
-                );
-
-            }
-
-
-            gallery.classList.add(
-                'active'
-            );
-
-        }
-
-
-
-        /* ---------------------------------------------
-           拖动
-        --------------------------------------------- */
-
-        function handleDrag(e) {
-
-            if (!isDown) {
-                return;
-            }
-
-
-            const currentX =
-                getX(e);
-
-
-            const deltaX =
-                currentX - startX;
-
-
-            /*
-             * 超过 5px 才认定为拖动
-             */
-
-            if (
-                Math.abs(deltaX) > 5
-            ) {
-
-                isDragging = true;
-
-            }
-
-
-            /*
-             * 控制横向滚动
-             */
-
-            gallery.scrollLeft =
-                scrollStart -
-                deltaX * 2;
-
-
-            /*
-             * 计算拖动速度
-             */
-
-            velocity =
-                (currentX - lastX) * 2;
-
-
-            lastX =
-                currentX;
-
-        }
-
-
-
-        /* ---------------------------------------------
-           停止拖动
-        --------------------------------------------- */
-
-        function stopDrag() {
-
-            if (!isDown) {
-                return;
-            }
-
-
-            isDown = false;
-
-
-            gallery.classList.remove(
-                'active'
-            );
-
-
-            /*
-             * 启动惯性滚动
-             */
-
-            momentumID =
-                requestAnimationFrame(
-                    applyMomentum
-                );
-
-
-            /*
-             * 延迟重置 isDragging
-             *
-             * 防止松手瞬间触发图片点击。
-             */
-
-            setTimeout(
-                function () {
-                    isDragging = false;
-                },
-                100
-            );
-
-        }
-
-
-
-        /* ---------------------------------------------
-           惯性滚动
-        --------------------------------------------- */
-
-        function applyMomentum() {
-
-            if (isDown) {
-                return;
-            }
-
-
-            if (
-                Math.abs(velocity) > 0.5
-            ) {
-
-
-                gallery.scrollLeft -=
-                    velocity;
-
-
-                velocity *= 0.95;
-
-
-                momentumID =
-                    requestAnimationFrame(
-                        applyMomentum
-                    );
-
-            }
-
-            else {
-
-                velocity = 0;
-
-            }
-
-        }
-
-
-
-        /* =================================================
-           电脑端鼠标
-        ================================================= */
-
-        gallery.addEventListener(
-            'mousedown',
-            startDrag
-        );
-
-
-        gallery.addEventListener(
-            'mousemove',
-            handleDrag
-        );
-
-
-        gallery.addEventListener(
-            'mouseup',
-            stopDrag
-        );
-
-
-        gallery.addEventListener(
-            'mouseleave',
-            stopDrag
-        );
-
-
-
-        /* =================================================
-           手机端触摸
-        ================================================= */
-
-        gallery.addEventListener(
-            'touchstart',
-            startDrag,
-            {
-                passive: true
-            }
-        );
-
-
-        gallery.addEventListener(
-            'touchmove',
-            handleDrag,
-            {
-                passive: true
-            }
-        );
-
-
-        gallery.addEventListener(
-            'touchend',
-            stopDrag,
-            {
-                passive: true
-            }
-        );
-
-
-        gallery.addEventListener(
-            'touchcancel',
-            stopDrag,
-            {
-                passive: true
-            }
-        );
-
-
-        /* =================================================
-           5. 图片点击放大
-        ================================================= */
-
-        const modal =
-            document.getElementById(
-                'imageModal'
-            );
-
-
-        const modalImg =
-            document.getElementById(
-                'modalImage'
-            );
-
-
-        const modalCaption =
-            document.getElementById(
-                'modalCaption'
-            );
-
-
-        const modalClose =
-            document.getElementById(
-                'modalClose'
-            );
-
-
-        const galleryImages =
-            document.querySelectorAll(
-                '.gallery .photo img'
-            );
-
-
-
-        galleryImages.forEach(
-            function (img) {
-
-
-                img.addEventListener(
-                    'click',
-                    function (e) {
-
-
-                        /*
-                         * 如果刚刚发生拖动，
-                         * 不打开大图。
-                         */
-
-                        if (isDragging) {
-
-                            e.preventDefault();
-
-                            return;
-
-                        }
-
-
-                        modal.classList.add(
-                            'show'
-                        );
-
-
-                        modalImg.src =
-                            this.src;
-
-
-                        const pTags =
-                            this
-                                .parentElement
-                                .querySelectorAll(
-                                    'p'
-                                );
-
-
-                        let captionText =
-                            '';
-
-
-                        pTags.forEach(
-                            function (p) {
-
-                                captionText +=
-                                    p.textContent +
-                                    ' ';
-
-                            }
-                        );
-
-
-                        modalCaption.textContent =
-                            captionText.trim();
-
-                    }
-                );
-
-            }
-        );
-
-
-
-        /* ---------------------------------------------
-           关闭图片
-        --------------------------------------------- */
-
-        if (modalClose) {
-
-            modalClose.addEventListener(
-                'click',
-                function () {
-
-                    modal.classList.remove(
-                        'show'
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* 点击背景关闭 */
-
-        if (modal) {
-
-            modal.addEventListener(
-                'click',
-                function (e) {
-
-                    if (
-                        e.target === modal
-                    ) {
-
-                        modal.classList.remove(
-                            'show'
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        /* 手机返回键 / ESC */
-
-        document.addEventListener(
-            'keydown',
-            function (e) {
-
-                if (
-                    e.key === 'Escape' &&
-                    modal
-                ) {
-
-                    modal.classList.remove(
-                        'show'
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-});
-
-</script>
+    <!-- =========================================
+         JavaScript
+         
+         注意加载顺序：
+         先 data.js
+         再 script.js
+    ========================================== -->
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
 
 </body>
+
 </html>

@@ -1,6 +1,12 @@
-/* =====================================================
-   全局基础
-===================================================== */
+/* =========================================================
+   Ufinite
+   style.css
+========================================================= */
+
+
+/* =========================================================
+   全局基础样式
+========================================================= */
 
 * {
     margin: 0;
@@ -9,19 +15,13 @@
 }
 
 
-html,
-body {
-    margin: 0;
-    padding: 0;
-
-    width: 100%;
-    min-height: 100%;
-
-    overflow-x: hidden;
+html {
+    scroll-behavior: smooth;
 }
 
 
 body {
+
     font-family:
         'Noto Serif SC',
         'Songti SC',
@@ -37,14 +37,34 @@ body {
     min-height: 100vh;
 
     overflow-x: hidden;
+
 }
 
 
-/* =====================================================
+/*
+ * 欢迎封面显示时禁止背景页面滚动
+ */
+
+body.welcome-active {
+    overflow: hidden;
+}
+
+
+/*
+ * 图片弹窗打开时禁止背景滚动
+ */
+
+body.modal-open {
+    overflow: hidden;
+}
+
+
+/* =========================================================
    强调色
-===================================================== */
+========================================================= */
 
 .highlight {
+
     color: #a84242;
 
     font-weight: bold;
@@ -54,196 +74,13 @@ body {
     font-size: 1.2em;
 
     margin: 0 4px;
-}
-
-
-/* =====================================================
-   欢迎进入主页遮罩
-===================================================== */
-
-.welcome-cover {
-
-    /*
-     * 使用 fixed + inset
-     * 比 width:100vw + height:100dvh
-     * 在移动端更加稳定
-     */
-
-    position: fixed;
-
-    inset: 0;
-
-    width: 100%;
-
-    /*
-     * 双重兼容
-     */
-
-    height: 100vh;
-    height: 100dvh;
-
-    background:
-        linear-gradient(
-            135deg,
-            #fcfcfc 0%,
-            #f4f0f0 100%
-        );
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    padding: 20px;
-
-    /*
-     * 保证一定在所有页面元素之上
-     */
-
-    z-index: 2147483647;
-
-    opacity: 1;
-
-    visibility: visible;
-
-    pointer-events: auto;
-
-    transition:
-        opacity 0.6s ease,
-        visibility 0.6s ease;
 
 }
 
 
-/* 欢迎内容 */
-
-.welcome-content {
-
-    width: 100%;
-
-    max-width: 340px;
-
-    text-align: center;
-
-    padding: 30px 20px;
-
-    background: #fff;
-
-    border-radius: 16px;
-
-    border: 1px solid #eaeaea;
-
-    box-shadow:
-        0 10px 30px
-        rgba(0, 0, 0, 0.08);
-
-}
-
-
-/* 欢迎标题 */
-
-.welcome-content h2 {
-
-    font-size: 1.25rem;
-
-    color: #1a1a1a;
-
-    margin-bottom: 12px;
-
-    font-weight: normal;
-
-    letter-spacing: 1px;
-
-}
-
-
-/* 欢迎文字 */
-
-.welcome-content p {
-
-    color: #666;
-
-    margin-bottom: 20px;
-
-    font-size: 0.9rem;
-
-    letter-spacing: 0.5px;
-
-}
-
-
-/* 进入按钮 */
-
-.enter-btn {
-
-    width: 100%;
-
-    background-color: #a84242;
-
-    color: white;
-
-    border: none;
-
-    padding: 12px 24px;
-
-    border-radius: 30px;
-
-    cursor: pointer;
-
-    font-size: 0.95rem;
-
-    font-family: inherit;
-
-    letter-spacing: 2px;
-
-    box-shadow:
-        0 4px 15px
-        rgba(168, 66, 66, 0.3);
-
-    transition:
-        background 0.3s ease,
-        transform 0.3s ease;
-
-}
-
-
-/* PC 鼠标悬停 */
-
-.enter-btn:hover {
-
-    background-color: #8f3737;
-
-    transform: translateY(-2px);
-
-}
-
-
-/* 点击反馈 */
-
-.enter-btn:active {
-
-    transform: scale(0.98);
-
-}
-
-
-/* 隐藏遮罩 */
-
-.welcome-cover.hidden {
-
-    opacity: 0;
-
-    visibility: hidden;
-
-    pointer-events: none;
-
-}
-
-
-/* =====================================================
-   页面头部
-===================================================== */
+/* =========================================================
+   Header
+========================================================= */
 
 header {
 
@@ -285,9 +122,9 @@ header p {
 }
 
 
-/* =====================================================
+/* =========================================================
    爱情计时器
-===================================================== */
+========================================================= */
 
 .love-timer-container {
 
@@ -334,9 +171,9 @@ header p {
 }
 
 
-/* =====================================================
+/* =========================================================
    相册画廊
-===================================================== */
+========================================================= */
 
 .gallery {
 
@@ -359,48 +196,27 @@ header p {
 
     z-index: 2;
 
-    /*
-     * 横向滚动
-     */
-
     overflow-x: auto;
 
     overflow-y: hidden;
 
-    /*
-     * 鼠标样式
-     */
-
     cursor: grab;
-
-    /*
-     * 防止拖动图片时选中文字
-     */
 
     user-select: none;
 
-    -webkit-user-select: none;
-
     /*
-     * 非常重要：
-     *
-     * 允许页面纵向滚动，
-     * 同时让 JS 控制横向拖动。
+     * 允许页面上下滑动，
+     * 横向拖动由 JS 控制。
      */
-
     touch-action: pan-y;
 
     /*
-     * 避免浏览器自身的滚动惯性
-     * 与我们的惯性算法产生冲突。
+     * 防止移动端浏览器产生原生图片拖拽
      */
-
-    -webkit-overflow-scrolling: auto;
+    -webkit-user-select: none;
 
 }
 
-
-/* 拖动状态 */
 
 .gallery.active {
 
@@ -409,7 +225,9 @@ header p {
 }
 
 
-/* 隐藏/美化横向滚动条 */
+/* =========================================================
+   横向滚动条
+========================================================= */
 
 .gallery::-webkit-scrollbar {
 
@@ -444,9 +262,9 @@ header p {
 }
 
 
-/* =====================================================
+/* =========================================================
    照片卡片
-===================================================== */
+========================================================= */
 
 .photo {
 
@@ -458,7 +276,8 @@ header p {
     padding:
         15px
         15px
-        25px;
+        25px
+        15px;
 
     box-shadow:
         0 4px 20px
@@ -473,8 +292,6 @@ header p {
 }
 
 
-/* PC 悬停 */
-
 .photo:hover {
 
     transform:
@@ -487,7 +304,9 @@ header p {
 }
 
 
-/* 图片 */
+/* =========================================================
+   图片
+========================================================= */
 
 .photo img {
 
@@ -499,8 +318,7 @@ header p {
 
     display: block;
 
-    filter:
-        grayscale(10%);
+    filter: grayscale(10%);
 
     transition:
         filter 0.4s ease;
@@ -508,10 +326,8 @@ header p {
     cursor: pointer;
 
     /*
-     * 防止手机浏览器
-     * 把图片当成可拖动对象
+     * 禁止浏览器原生图片拖动
      */
-
     -webkit-user-drag: none;
 
     user-select: none;
@@ -519,17 +335,12 @@ header p {
 }
 
 
-/* PC 悬停图片 */
-
 .photo:hover img {
 
-    filter:
-        grayscale(0%);
+    filter: grayscale(0%);
 
 }
 
-
-/* 图片说明 */
 
 .photo p {
 
@@ -544,9 +355,9 @@ header p {
 }
 
 
-/* =====================================================
+/* =========================================================
    横向照片
-===================================================== */
+========================================================= */
 
 .photo.landscape {
 
@@ -567,15 +378,14 @@ header p {
 }
 
 
-/* =====================================================
-   回忆时间线
-===================================================== */
+/* =========================================================
+   心动回忆录
+========================================================= */
 
 .memory-section {
 
     padding:
-        4rem
-        20px;
+        4rem 20px;
 
     background-color: #fff;
 
@@ -605,6 +415,10 @@ header p {
 
 }
 
+
+/* =========================================================
+   时间线
+========================================================= */
 
 .memory-timeline {
 
@@ -639,6 +453,10 @@ header p {
 }
 
 
+/* =========================================================
+   时间线项目
+========================================================= */
+
 .memory-item {
 
     display: flex;
@@ -668,6 +486,10 @@ header p {
 }
 
 
+/* =========================================================
+   日期
+========================================================= */
+
 .memory-date {
 
     width: 45%;
@@ -683,6 +505,10 @@ header p {
 }
 
 
+/* =========================================================
+   回忆内容
+========================================================= */
+
 .memory-content {
 
     width: 45%;
@@ -691,8 +517,7 @@ header p {
 
     background: #fcfcfc;
 
-    border:
-        1px solid #eaeaea;
+    border: 1px solid #eaeaea;
 
     transition:
         background 0.3s ease;
@@ -710,6 +535,10 @@ header p {
 
 }
 
+
+/* =========================================================
+   时间线圆点
+========================================================= */
 
 .memory-item::after {
 
@@ -735,6 +564,10 @@ header p {
 }
 
 
+/* =========================================================
+   回忆标题
+========================================================= */
+
 .memory-title {
 
     font-size: 1.2rem;
@@ -757,9 +590,9 @@ header p {
 }
 
 
-/* =====================================================
+/* =========================================================
    音乐播放器
-===================================================== */
+========================================================= */
 
 .music-player {
 
@@ -784,8 +617,7 @@ header p {
         1px solid #eaeaea;
 
     padding:
-        10px
-        20px;
+        10px 20px;
 
     border-radius: 30px;
 
@@ -834,9 +666,9 @@ header p {
 }
 
 
-/* =====================================================
-   图片大图预览
-===================================================== */
+/* =========================================================
+   图片预览弹窗
+========================================================= */
 
 .image-modal {
 
@@ -861,8 +693,7 @@ header p {
 
     z-index: 999999;
 
-    backdrop-filter:
-        blur(5px);
+    backdrop-filter: blur(5px);
 
     opacity: 0;
 
@@ -910,8 +741,7 @@ header p {
 
     text-align: center;
 
-    padding:
-        0 20px;
+    padding: 0 20px;
 
 }
 
@@ -926,6 +756,10 @@ header p {
 
     color: #fff;
 
+    background: transparent;
+
+    border: none;
+
     font-size: 40px;
 
     font-weight: 300;
@@ -934,6 +768,8 @@ header p {
 
     transition:
         color 0.3s ease;
+
+    z-index: 2;
 
 }
 
@@ -945,16 +781,15 @@ header p {
 }
 
 
-/* =====================================================
+/* =========================================================
    页脚
-===================================================== */
+========================================================= */
 
 footer {
 
     text-align: center;
 
-    padding:
-        4rem 0;
+    padding: 4rem 0;
 
     color: #999;
 
@@ -965,52 +800,192 @@ footer {
 }
 
 
-/* =====================================================
+/* =========================================================
+   欢迎封面
+========================================================= */
+
+.welcome-cover {
+
+    /*
+     * inset 比单独 top/left/width/height 更稳健
+     */
+    position: fixed;
+
+    inset: 0;
+
+    /*
+     * 双保险：
+     * 100vh + 100dvh
+     */
+    width: 100vw;
+
+    height: 100vh;
+
+    height: 100dvh;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fcfcfc 0%,
+            #f4f0f0 100%
+        );
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    /*
+     * 确保位于整个页面最上层
+     */
+    z-index: 2147483647;
+
+    transition:
+        opacity 0.6s ease,
+        visibility 0.6s ease;
+
+    padding:
+        20px;
+
+    /*
+     * 创建独立 stacking context
+     */
+    isolation: isolate;
+
+}
+
+
+/* =========================================================
+   欢迎内容
+========================================================= */
+
+.welcome-content {
+
+    text-align: center;
+
+    padding:
+        30px 20px;
+
+    background: #fff;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0, 0, 0, 0.08);
+
+    border:
+        1px solid #eaeaea;
+
+    width: 100%;
+
+    max-width: 340px;
+
+}
+
+
+.welcome-content h2 {
+
+    font-size: 1.25rem;
+
+    color: #1a1a1a;
+
+    margin-bottom: 12px;
+
+    font-weight: normal;
+
+    letter-spacing: 1px;
+
+}
+
+
+.welcome-content p {
+
+    color: #666;
+
+    margin-bottom: 20px;
+
+    font-size: 0.9rem;
+
+    letter-spacing: 0.5px;
+
+}
+
+
+/* =========================================================
+   进入按钮
+========================================================= */
+
+.enter-btn {
+
+    background-color: #a84242;
+
+    color: white;
+
+    border: none;
+
+    padding:
+        12px 24px;
+
+    border-radius: 30px;
+
+    cursor: pointer;
+
+    font-size: 0.95rem;
+
+    font-family: inherit;
+
+    letter-spacing: 2px;
+
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease;
+
+    box-shadow:
+        0 4px 15px
+        rgba(168, 66, 66, 0.3);
+
+    width: 100%;
+
+}
+
+
+.enter-btn:hover {
+
+    background-color: #8f3737;
+
+    transform:
+        translateY(-2px);
+
+}
+
+
+/* =========================================================
+   欢迎封面隐藏状态
+========================================================= */
+
+.welcome-cover.hidden {
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================================
    手机端
-===================================================== */
+========================================================= */
 
 @media (max-width: 768px) {
 
 
-    /* ---------------------------------------------
-       欢迎遮罩
-    --------------------------------------------- */
-
-    .welcome-cover {
-
-        padding:
-            20px;
-
-        /*
-         * 安全区域
-         * 适配 iPhone 刘海
-         */
-
-        padding-top:
-            max(
-                20px,
-                env(safe-area-inset-top)
-            );
-
-        padding-bottom:
-            max(
-                20px,
-                env(safe-area-inset-bottom)
-            );
-
-    }
-
-
-    .welcome-content {
-
-        max-width: 340px;
-
-    }
-
-
-    /* ---------------------------------------------
+    /* -----------------------------------------
        Header
-    --------------------------------------------- */
+    ----------------------------------------- */
 
     header {
 
@@ -1036,14 +1011,13 @@ footer {
     }
 
 
-    /* ---------------------------------------------
+    /* -----------------------------------------
        爱情计时器
-    --------------------------------------------- */
+    ----------------------------------------- */
 
     .love-timer-container {
 
-        margin-bottom:
-            2rem;
+        margin-bottom: 2rem;
 
         padding:
             20px 10px;
@@ -1053,14 +1027,14 @@ footer {
 
     .love-timer {
 
-        font-size: 1rem;
+        font-size: 0.95rem;
 
     }
 
 
-    /* ---------------------------------------------
-       手机画廊
-    --------------------------------------------- */
+    /* -----------------------------------------
+       手机相册
+    ----------------------------------------- */
 
     .gallery {
 
@@ -1072,19 +1046,9 @@ footer {
             30px;
 
         /*
-         * 手机端卡片缩小
+         * 手机上允许横向区域继续扩大
          */
-
         max-width: none;
-
-        width: 100%;
-
-        /*
-         * 防止浏览器把触摸
-         * 解释成网页缩放。
-         */
-
-        touch-action: pan-y;
 
     }
 
@@ -1124,31 +1088,22 @@ footer {
     }
 
 
-    .photo p {
-
-        font-size:
-            0.85rem;
-
-    }
-
-
-    /* ---------------------------------------------
+    /* -----------------------------------------
        时间线
-    --------------------------------------------- */
+    ----------------------------------------- */
 
     .memory-section {
 
         padding:
             3rem
-            20px;
+            15px;
 
     }
 
 
     .memory-header {
 
-        margin-bottom:
-            3rem;
+        margin-bottom: 3rem;
 
     }
 
@@ -1160,21 +1115,12 @@ footer {
     }
 
 
-    .memory-item::after {
-
-        left: 20px;
-
-    }
-
-
     .memory-item,
     .memory-item:nth-child(even) {
 
-        flex-direction:
-            column;
+        flex-direction: column;
 
-        align-items:
-            flex-end;
+        align-items: flex-end;
 
     }
 
@@ -1184,11 +1130,9 @@ footer {
         width:
             calc(100% - 40px);
 
-        text-align:
-            left;
+        text-align: left;
 
-        margin-bottom:
-            10px;
+        margin-bottom: 10px;
 
     }
 
@@ -1198,25 +1142,29 @@ footer {
         width:
             calc(100% - 40px);
 
-        padding:
-            20px;
+    }
+
+
+    .memory-item::after {
+
+        left: 20px;
 
     }
 
 
-    /* ---------------------------------------------
-       音乐按钮
-    --------------------------------------------- */
+    /* -----------------------------------------
+       音乐播放器
+    ----------------------------------------- */
 
     .music-player {
 
-        right: 15px;
-
         bottom:
-            max(
-                15px,
+            calc(
+                15px +
                 env(safe-area-inset-bottom)
             );
+
+        right: 15px;
 
     }
 
@@ -1224,26 +1172,22 @@ footer {
     .music-btn {
 
         padding:
-            8px
-            15px;
+            8px 14px;
 
-        font-size:
-            0.8rem;
+        font-size: 0.8rem;
 
     }
 
 
-    /* ---------------------------------------------
-       大图预览
-    --------------------------------------------- */
+    /* -----------------------------------------
+       图片弹窗
+    ----------------------------------------- */
 
     .image-modal img {
 
-        max-width:
-            94%;
+        max-width: 94%;
 
-        max-height:
-            75vh;
+        max-height: 75vh;
 
     }
 
@@ -1254,19 +1198,54 @@ footer {
 
         right: 20px;
 
-        font-size:
-            35px;
+        font-size: 36px;
 
     }
 
 
     .modal-caption {
 
-        font-size:
-            0.9rem;
+        font-size: 0.95rem;
 
-        margin-top:
-            15px;
+    }
+
+
+}
+
+
+/* =========================================================
+   极窄屏幕
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .welcome-content {
+
+        max-width: 310px;
+
+        padding:
+            25px 18px;
+
+    }
+
+
+    .welcome-content h2 {
+
+        font-size: 1.1rem;
+
+    }
+
+
+    .photo {
+
+        flex-basis: 260px;
+
+    }
+
+
+    .photo.landscape {
+
+        flex-basis: 300px;
 
     }
 
