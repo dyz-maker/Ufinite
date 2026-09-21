@@ -6,6 +6,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<!-- 欢迎进入主页的封面遮罩 -->
+    <div id="welcomeCover" class="welcome-cover">
+        <div class="welcome-content">
+            <h2>❤️ 欢迎光童童洲洲的主页❤️</h2>
+            <p>点击下方按钮，进入Ufinite~</p>
+            <button id="enterBtn" class="enter-btn">✨ 进入主页 ✨</button>
+        </div>
+    </div>
+
+
     <header>
         <h1>Ufinite</h1>
         <p>U find ideal nature in the eyes</p>
@@ -165,37 +175,23 @@
         }
         document.addEventListener('DOMContentLoaded', initLoveTimer);
 
-// 2. 音乐播放控制逻辑与首次交互即播
+// 3. 点击进入主页并同时触发背景音乐播放
+        const enterBtn = document.getElementById('enterBtn');
+        const welcomeCover = document.getElementById('welcomeCover');
         const audio = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicBtn');
-        let hasInteracted = false;
 
-        // 用户第一次点击页面的任何地方时，尝试播放音乐
-        document.body.addEventListener('click', function() {
-            if (!hasInteracted && audio.paused) {
-                audio.play().then(() => {
-                    hasInteracted = true;
-                    musicBtn.innerHTML = '⏸ Pause Music';
-                    musicBtn.classList.add('playing');
-                }).catch(e => {
-                    console.log('自动播放被浏览器拦截');
-                });
-            }
-        }, { once: true }); // 确保全局监听只触发一次
-
-        // 独立的播放按钮控制逻辑
-        musicBtn.addEventListener('click', function(e) {
-            e.stopPropagation(); // 阻止冒泡，防止与上面的全局点击冲突
-            hasInteracted = true; 
-            if (audio.paused) {
-                audio.play();
+        enterBtn.addEventListener('click', function() {
+            // 尝试播放音乐
+            audio.play().then(() => {
                 musicBtn.innerHTML = '⏸ Pause Music';
                 musicBtn.classList.add('playing');
-            } else {
-                audio.pause();
-                musicBtn.innerHTML = '🎵 Play Music';
-                musicBtn.classList.remove('playing');
-            }
+            }).catch(error => {
+                console.log("音频播放被浏览器拦截或路径有误：", error);
+            });
+
+            // 让欢迎封面平滑隐藏
+            welcomeCover.classList.add('hidden');
         });
 
 // 3. 画廊交互：兼容双端（鼠标+触摸）的拖拽、惯性与自动滚动
