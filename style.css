@@ -176,12 +176,17 @@ header p {
 ========================================================= */
 
 .gallery {
+
     display: flex;
+
     flex-wrap: nowrap;
 
     gap: 20px;
 
-    padding: 20px 40px 40px;
+    padding:
+        20px
+        40px
+        40px;
 
     max-width: 1400px;
 
@@ -191,13 +196,7 @@ header p {
 
     z-index: 2;
 
-    /*
-     * 这里改成 hidden。
-     *
-     * 不让手机浏览器接管横向滚动，
-     * 横向移动完全由 JS 控制。
-     */
-    overflow-x: hidden;
+    overflow-x: auto;
 
     overflow-y: hidden;
 
@@ -206,14 +205,16 @@ header p {
     user-select: none;
 
     /*
-     * 允许正常上下滑动网页，
-     * 横向由 JS 接管。
+     * 允许页面上下滑动，
+     * 横向拖动由 JS 控制。
      */
     touch-action: pan-y;
 
+    /*
+     * 防止移动端浏览器产生原生图片拖拽
+     */
     -webkit-user-select: none;
 
-    -webkit-overflow-scrolling: auto;
 }
 
 
@@ -1036,24 +1037,21 @@ footer {
     ----------------------------------------- */
 
     .gallery {
-    gap: 15px;
 
-    padding:
-        15px
-        20px
-        30px;
+        gap: 15px;
 
-    max-width: none;
+        padding:
+            15px
+            20px
+            30px;
 
-    /*
-     * JS 控制横向滚动
-     */
-    overflow-x: hidden;
+        /*
+         * 手机上允许横向区域继续扩大
+         */
+        max-width: none;
 
-    overflow-y: hidden;
-
-    touch-action: pan-y;
     }
+
 
     .photo {
 
