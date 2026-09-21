@@ -165,11 +165,28 @@
         }
         document.addEventListener('DOMContentLoaded', initLoveTimer);
 
-        // 2. 音乐播放控制逻辑
+// 2. 音乐播放控制逻辑与首次交互即播
         const audio = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicBtn');
+        let hasInteracted = false;
 
-        musicBtn.addEventListener('click', function() {
+        // 用户第一次点击页面的任何地方时，尝试播放音乐
+        document.body.addEventListener('click', function() {
+            if (!hasInteracted && audio.paused) {
+                audio.play().then(() => {
+                    hasInteracted = true;
+                    musicBtn.innerHTML = '⏸ Pause Music';
+                    musicBtn.classList.add('playing');
+                }).catch(e => {
+                    console.log('自动播放被浏览器拦截');
+                });
+            }
+        }, { once: true }); // 确保全局监听只触发一次
+
+        // 独立的播放按钮控制逻辑
+        musicBtn.addEventListener('click', function(e) {
+            e.stopPropagation(); // 阻止冒泡，防止与上面的全局点击冲突
+            hasInteracted = true; 
             if (audio.paused) {
                 audio.play();
                 musicBtn.innerHTML = '⏸ Pause Music';
@@ -181,93 +198,98 @@
             }
         });
 
-        // 3. 画廊交互：鼠标按住拖拽（带惯性） & 自动平滑滚动 & 点击查看大图
+// 3. 画廊交互：兼容双端（鼠标+触摸）的拖拽、惯性与自动滚动
         const gallery = document.querySelector('.gallery');
         let isDown = false;
         let startX;
         let scrollLeft;
         let isDragging = false; 
-
-        // === 新增：惯性与自动滚动参数 ===
-        let lastX = 0; // 记录上一帧的X坐标
-        let velocity = 0; // 拖拽产生的初始瞬时速度
+        let lastX = 0;
+        let velocity = 0;
         let momentumID;
-        let isHovered = false; // 判断鼠标是否悬停在画廊上
+        let isHovered = false; 
 
-        // 监听鼠标进入和离开，控制是否暂停自动滚动
-        gallery.addEventListener('mouseenter', () => isHovered = true);
-        gallery.addEventListener('mouseleave', () => isHovered = false);
-
-        // --- 功能 A：自动平滑滚动 ---
+        // === 自动平滑滚动 ===
         function autoScroll() {
-            // 当没有拖拽、没有产生惯性滑动、且鼠标没有悬停时，执行自动向右滚动
             if (!isDown && Math.abs(velocity) < 0.5 && !isHovered) {
-                gallery.scrollLeft += 0.8; // 数值越大，自动滚动越快
-                // 滚到底部时自动无缝回到开头（允许 2px 的误差）
+                gallery.scrollLeft += 0.8; 
                 if (gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth - 2) {
                     gallery.scrollLeft = 0;
                 }
             }
             requestAnimationFrame(autoScroll);
         }
-        requestAnimationFrame(autoScroll); // 页面加载后立即启动自动滚动
+        requestAnimationFrame(autoScroll);
 
-        // --- 功能 B：拖拽后的惯性衰减 ---
+        // === 惯性衰减逻辑 ===
         function applyMomentum() {
-            if (isDown) return; // 如果重新按下了鼠标，立刻停止惯性
+            if (isDown) return;
             if (Math.abs(velocity) > 0.5) {
                 gallery.scrollLeft -= velocity;
-                velocity *= 0.95; // 摩擦力衰减乘数：数值越接近1，松手后滑得越远
+                velocity *= 0.95; 
                 momentumID = requestAnimationFrame(applyMomentum);
             } else {
-                velocity = 0; // 速度过小时归零，完全停止
+                velocity = 0;
             }
         }
 
-        // --- 核心拖拽逻辑更新 ---
-        gallery.addEventListener('mousedown', (e) => {
+        // 统一获取鼠标或手指的横坐标
+        const getX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+
+        // === 核心拖动控制 ===
+        function startDrag(e) {
             isDown = true;
             isDragging = false; 
             gallery.classList.add('active');
-            startX = e.pageX - gallery.offsetLeft;
-            lastX = e.pageX; // 记录按下时的初始位置
+            startX = getX(e) - gallery.offsetLeft;
+            lastX = getX(e); 
             scrollLeft = gallery.scrollLeft;
-            
-            cancelAnimationFrame(momentumID); // 鼠标按下时，立刻打断之前的惯性滑动
+            cancelAnimationFrame(momentumID); 
             velocity = 0;
-        });
+        }
 
+        function stopDrag() {
+            if (!isDown) return;
+            isDown = false;
+            gallery.classList.remove('active');
+            momentumID = requestAnimationFrame(applyMomentum); 
+        }
+
+        function handleDrag(e) {
+            if (!isDown) return;
+            isDragging = true; 
+            const currentX = getX(e);
+            const x = currentX - gallery.offsetLeft;
+            const walk = (x - startX) * 2; 
+            velocity = (currentX - lastX) * 2;
+            lastX = currentX; 
+            gallery.scrollLeft = scrollLeft - walk;
+        }
+
+        // 绑定鼠标事件 (电脑端)
+        gallery.addEventListener('mouseenter', () => isHovered = true);
         gallery.addEventListener('mouseleave', () => {
             isHovered = false;
-            if (!isDown) return;
-            isDown = false;
-            gallery.classList.remove('active');
-            momentumID = requestAnimationFrame(applyMomentum); // 鼠标移出屏幕外时触发惯性
+            stopDrag();
         });
+        gallery.addEventListener('mousedown', startDrag);
+        gallery.addEventListener('mouseup', stopDrag);
+        gallery.addEventListener('mousemove', handleDrag);
 
-        gallery.addEventListener('mouseup', () => {
-            isDown = false;
-            gallery.classList.remove('active');
-            momentumID = requestAnimationFrame(applyMomentum); // 松开鼠标时触发惯性
+        // 绑定触摸事件 (手机端)
+        gallery.addEventListener('touchstart', (e) => {
+            isHovered = true; // 触摸时暂停自动轮播
+            startDrag(e);
+        }, { passive: true });
+        
+        gallery.addEventListener('touchend', () => {
+            isHovered = false; // 松手后恢复自动轮播
+            stopDrag();
         });
+        
+        gallery.addEventListener('touchmove', handleDrag, { passive: true });
 
-        gallery.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            isDragging = true; 
-            
-            const currentX = e.pageX;
-            const x = currentX - gallery.offsetLeft;
-            const walk = (x - startX) * 2; // 乘2代表拖拽灵敏度
-            
-            // 计算瞬时拖动速度（当前X坐标减去上一帧X坐标，再乘上灵敏度）
-            velocity = (currentX - lastX) * 2;
-            lastX = currentX; // 更新上一帧位置
-            
-            gallery.scrollLeft = scrollLeft - walk;
-        });
-
-        // --- 点击查看大图逻辑 (保持原样) ---
+        // === 点击查看大图逻辑 ===
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
         const modalCaption = document.getElementById('modalCaption');
@@ -276,14 +298,12 @@
 
         galleryImages.forEach(img => {
             img.addEventListener('click', function(e) {
-                // 如果用户是在拖拽，则阻止触发点击
                 if (isDragging) {
                     e.preventDefault();
                     return;
                 }
                 modal.classList.add('show');
                 modalImg.src = this.src;
-                
                 const pTags = this.parentElement.querySelectorAll('p');
                 let captionText = '';
                 pTags.forEach(p => captionText += p.textContent + ' ');
@@ -291,14 +311,9 @@
             });
         });
 
-        modalClose.addEventListener('click', () => {
-            modal.classList.remove('show');
-        });
-
+        modalClose.addEventListener('click', () => modal.classList.remove('show'));
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('show');
-            }
+            if (e.target === modal) modal.classList.remove('show');
         });
     </script>
 </body>
