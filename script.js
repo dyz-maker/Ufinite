@@ -1,22 +1,6 @@
 /* =========================================================
-   Ufinite 主程序
+   Ufinite
    script.js
-
-   功能：
-   1. 初始化页面
-   2. 生成相册
-   3. 生成回忆录
-   4. 爱情计时器
-   5. 欢迎封面
-   6. 音乐播放器
-   7. 相册自动滚动
-   8. 相册拖拽
-   9. 图片预览
-========================================================= */
-
-
-/* =========================================================
-   页面初始化
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -54,24 +38,16 @@ function initGallery() {
 
         const card = document.createElement("div");
 
-        /*
-         * 根据 type 判断照片类型
-         */
-        card.className =
-            photo.type === "landscape"
-                ? "photo landscape"
-                : "photo";
+        if (photo.type === "landscape") {
+            card.className = "photo landscape";
+        } else {
+            card.className = "photo";
+        }
 
-
-        /*
-         * 图片路径
-         */
         const imagePath =
             siteConfig.imagePath + photo.file;
 
-
         card.innerHTML = `
-
             <img
                 src="${imagePath}"
                 alt="${escapeHTML(photo.title)}"
@@ -82,9 +58,7 @@ function initGallery() {
             <p>${escapeHTML(photo.date)}</p>
 
             <p>${escapeHTML(photo.title)}</p>
-
         `;
-
 
         gallery.appendChild(card);
 
@@ -106,7 +80,6 @@ function initMemoryTimeline() {
 
     timeline.innerHTML = "";
 
-
     memories.forEach(function (memory) {
 
         const item =
@@ -114,9 +87,7 @@ function initMemoryTimeline() {
 
         item.className = "memory-item";
 
-
         item.innerHTML = `
-
             <div class="memory-date">
                 ${escapeHTML(memory.date)}
             </div>
@@ -132,9 +103,7 @@ function initMemoryTimeline() {
                 </div>
 
             </div>
-
         `;
-
 
         timeline.appendChild(item);
 
@@ -154,25 +123,17 @@ function initLoveTimer() {
 
     if (!timer) return;
 
-
-    /*
-     * 使用 data.js 中的日期
-     */
     const startDate =
         new Date(siteConfig.loveStartDate);
-
 
     function updateLoveTimer() {
 
         const now = new Date();
 
         const diff =
-            now.getTime() - startDate.getTime();
+            now.getTime() -
+            startDate.getTime();
 
-
-        /*
-         * 如果系统时间早于开始时间
-         */
         if (diff < 0) {
 
             timer.innerHTML =
@@ -182,13 +143,11 @@ function initLoveTimer() {
 
         }
 
-
         const days =
             Math.floor(
                 diff /
                 (1000 * 60 * 60 * 24)
             );
-
 
         const hours =
             Math.floor(
@@ -197,14 +156,12 @@ function initLoveTimer() {
                 (1000 * 60 * 60)
             );
 
-
         const minutes =
             Math.floor(
                 (diff %
                     (1000 * 60 * 60)) /
                 (1000 * 60)
             );
-
 
         const seconds =
             Math.floor(
@@ -213,39 +170,18 @@ function initLoveTimer() {
                 1000
             );
 
-
         timer.innerHTML = `
-
             童洲同舟的第
-
-            <span class="highlight">
-                ${days}
-            </span>
-
+            <span class="highlight">${days}</span>
             天
-
-            <span class="highlight">
-                ${hours}
-            </span>
-
+            <span class="highlight">${hours}</span>
             时
-
-            <span class="highlight">
-                ${minutes}
-            </span>
-
+            <span class="highlight">${minutes}</span>
             分
-
-            <span class="highlight">
-                ${seconds}
-            </span>
-
+            <span class="highlight">${seconds}</span>
             秒
-
         `;
-
     }
-
 
     updateLoveTimer();
 
@@ -266,59 +202,28 @@ function initWelcomeCover() {
     const welcomeCover =
         document.getElementById("welcomeCover");
 
-    const audio =
-        document.getElementById("bgMusic");
-
-
     if (!enterBtn || !welcomeCover) return;
 
 
-    enterBtn.addEventListener(
-        "click",
-        function () {
+    enterBtn.addEventListener("click", async function () {
+
+        /*
+         * 这里的 click 是用户主动操作，
+         * 因此可以尝试启动音乐。
+         */
+        await playMusic();
 
 
-            /*
-             * 点击进入主页时尝试播放音乐
-             *
-             * 因为这是用户主动点击，
-             * 移动端浏览器通常允许播放。
-             */
-            if (audio) {
+        /*
+         * 隐藏欢迎封面
+         */
+        welcomeCover.classList.add("hidden");
 
-                audio.play()
-                    .then(function () {
+        document.body.classList.remove(
+            "welcome-active"
+        );
 
-                        updateMusicButton(true);
-
-                    })
-                    .catch(function (error) {
-
-                        console.log(
-                            "音乐播放失败：",
-                            error
-                        );
-
-                    });
-
-            }
-
-
-            /*
-             * 隐藏欢迎封面
-             */
-            welcomeCover.classList.add("hidden");
-
-
-            /*
-             * 恢复页面滚动
-             */
-            document.body.classList.remove(
-                "welcome-active"
-            );
-
-        }
-    );
+    });
 
 }
 
@@ -335,36 +240,23 @@ function initMusicPlayer() {
     const musicBtn =
         document.getElementById("musicBtn");
 
-
     if (!audio || !musicBtn) return;
 
 
+    /*
+     * 点击音乐按钮
+     */
     musicBtn.addEventListener(
         "click",
-        function () {
+        async function () {
 
             if (audio.paused) {
 
-                audio.play()
-                    .then(function () {
-
-                        updateMusicButton(true);
-
-                    })
-                    .catch(function (error) {
-
-                        console.log(
-                            "音乐播放失败：",
-                            error
-                        );
-
-                    });
+                await playMusic();
 
             } else {
 
-                audio.pause();
-
-                updateMusicButton(false);
+                pauseMusic();
 
             }
 
@@ -373,7 +265,7 @@ function initMusicPlayer() {
 
 
     /*
-     * 音乐自然结束 / 被暂停时同步按钮状态
+     * 音乐开始播放
      */
     audio.addEventListener(
         "play",
@@ -385,6 +277,9 @@ function initMusicPlayer() {
     );
 
 
+    /*
+     * 音乐暂停
+     */
     audio.addEventListener(
         "pause",
         function () {
@@ -394,12 +289,126 @@ function initMusicPlayer() {
         }
     );
 
+
+    /*
+     * 音频加载错误
+     */
+    audio.addEventListener(
+        "error",
+        function () {
+
+            console.error(
+                "Ufinite 音乐加载失败：",
+                audio.error
+            );
+
+            musicBtn.innerHTML =
+                "⚠ Music Error";
+
+        }
+    );
+
+
+    /*
+     * 音频加载成功
+     */
+    audio.addEventListener(
+        "canplay",
+        function () {
+
+            console.log(
+                "Ufinite 音乐文件加载成功"
+            );
+
+        }
+    );
+
 }
 
 
-/*
- * 更新音乐按钮
- */
+/* =========================================================
+   真正执行播放
+========================================================= */
+
+async function playMusic() {
+
+    const audio =
+        document.getElementById("bgMusic");
+
+    const musicBtn =
+        document.getElementById("musicBtn");
+
+    if (!audio) return;
+
+
+    try {
+
+        /*
+         * 确保浏览器已经加载音频
+         */
+        if (audio.readyState === 0) {
+
+            audio.load();
+
+        }
+
+
+        await audio.play();
+
+
+        updateMusicButton(true);
+
+
+        console.log(
+            "Ufinite 音乐开始播放"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Ufinite 音乐播放失败：",
+            error
+        );
+
+
+        /*
+         * 如果是浏览器禁止播放，
+         * 给用户明确提示
+         */
+        if (musicBtn) {
+
+            musicBtn.innerHTML =
+                "🎵 点击播放音乐";
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   暂停音乐
+========================================================= */
+
+function pauseMusic() {
+
+    const audio =
+        document.getElementById("bgMusic");
+
+    if (!audio) return;
+
+    audio.pause();
+
+    updateMusicButton(false);
+
+}
+
+
+/* =========================================================
+   更新音乐按钮
+========================================================= */
 
 function updateMusicButton(isPlaying) {
 
@@ -414,14 +423,18 @@ function updateMusicButton(isPlaying) {
         musicBtn.innerHTML =
             "⏸ Pause Music";
 
-        musicBtn.classList.add("playing");
+        musicBtn.classList.add(
+            "playing"
+        );
 
     } else {
 
         musicBtn.innerHTML =
             "🎵 Play Music";
 
-        musicBtn.classList.remove("playing");
+        musicBtn.classList.remove(
+            "playing"
+        );
 
     }
 
@@ -440,7 +453,7 @@ function initGalleryInteraction() {
     if (!gallery) return;
 
 
-    let isPointerDown = false;
+    let isDragging = false;
 
     let startX = 0;
 
@@ -450,36 +463,38 @@ function initGalleryInteraction() {
 
     let velocity = 0;
 
-    let momentumAnimation = null;
+    let momentumFrame = null;
 
-    let hasDragged = false;
+    let wasDragged = false;
 
 
-    /*
-     * 判断当前是否真正可以横向滚动
-     */
+    /* -----------------------------------------------------
+       判断是否存在横向滚动空间
+    ----------------------------------------------------- */
+
     function canScroll() {
 
         return (
             gallery.scrollWidth >
-            gallery.clientWidth + 1
+            gallery.clientWidth + 2
         );
 
     }
 
 
-    /* =========================================
+    /* -----------------------------------------------------
        自动滚动
-    ========================================= */
+    ----------------------------------------------------- */
 
     function autoScroll() {
 
         /*
-         * 只有在没有拖拽时自动滚动
+         * 只要用户没有拖动，
+         * 就持续自动向右移动。
          */
         if (
             siteConfig.autoScroll &&
-            !isPointerDown &&
+            !isDragging &&
             canScroll()
         ) {
 
@@ -488,7 +503,7 @@ function initGalleryInteraction() {
 
 
             /*
-             * 到达最右端后回到最左端
+             * 到达最右侧以后回到最左侧
              */
             if (
                 gallery.scrollLeft >=
@@ -509,27 +524,30 @@ function initGalleryInteraction() {
     }
 
 
+    /*
+     * 启动自动滚动
+     */
     requestAnimationFrame(autoScroll);
 
 
-    /* =========================================
+    /* -----------------------------------------------------
        惯性滚动
-    ========================================= */
+    ----------------------------------------------------- */
 
-    function applyMomentum() {
+    function momentumScroll() {
 
-        if (isPointerDown) return;
+        if (isDragging) return;
 
 
-        if (Math.abs(velocity) > 0.2) {
+        if (Math.abs(velocity) > 0.15) {
 
             gallery.scrollLeft -= velocity;
 
             velocity *= 0.94;
 
-            momentumAnimation =
+            momentumFrame =
                 requestAnimationFrame(
-                    applyMomentum
+                    momentumScroll
                 );
 
         } else {
@@ -541,16 +559,16 @@ function initGalleryInteraction() {
     }
 
 
-    /* =========================================
-       Pointer Down
-    ========================================= */
+    /* -----------------------------------------------------
+       开始拖动
+    ----------------------------------------------------- */
 
     gallery.addEventListener(
         "pointerdown",
         function (event) {
 
             /*
-             * 只处理鼠标左键
+             * 鼠标只响应左键
              */
             if (
                 event.pointerType === "mouse" &&
@@ -562,31 +580,37 @@ function initGalleryInteraction() {
             }
 
 
-            isPointerDown = true;
+            isDragging = true;
 
-            hasDragged = false;
+            wasDragged = false;
 
-            startX = event.clientX;
 
-            lastX = event.clientX;
+            startX =
+                event.clientX;
+
+            lastX =
+                event.clientX;
+
 
             startScrollLeft =
                 gallery.scrollLeft;
+
 
             velocity = 0;
 
 
             cancelAnimationFrame(
-                momentumAnimation
+                momentumFrame
             );
 
 
-            gallery.classList.add("active");
+            gallery.classList.add(
+                "active"
+            );
 
 
             /*
-             * 捕获 pointer，
-             * 防止手指/鼠标移出 gallery 后事件丢失
+             * 捕获触摸指针
              */
             try {
 
@@ -600,15 +624,15 @@ function initGalleryInteraction() {
     );
 
 
-    /* =========================================
-       Pointer Move
-    ========================================= */
+    /* -----------------------------------------------------
+       拖动
+    ----------------------------------------------------- */
 
     gallery.addEventListener(
         "pointermove",
         function (event) {
 
-            if (!isPointerDown) return;
+            if (!isDragging) return;
 
 
             const currentX =
@@ -620,36 +644,34 @@ function initGalleryInteraction() {
 
 
             /*
-             * 超过 5px 才认为是真正拖动
+             * 超过 6px 才认为是真正拖动
              */
-            if (Math.abs(deltaX) > 5) {
+            if (
+                Math.abs(deltaX) > 6
+            ) {
 
-                hasDragged = true;
+                wasDragged = true;
 
             }
 
 
-            /*
-             * 拖动距离
-             */
             gallery.scrollLeft =
-                startScrollLeft - deltaX * 2;
+                startScrollLeft -
+                deltaX * 1.8;
 
 
-            /*
-             * 计算速度
-             */
             velocity =
-                (currentX - lastX) * 2;
+                (currentX - lastX) * 1.8;
 
 
-            lastX = currentX;
+            lastX =
+                currentX;
 
 
             /*
-             * 阻止浏览器原生拖拽
+             * 阻止浏览器原生手势
              */
-            if (hasDragged) {
+            if (wasDragged) {
 
                 event.preventDefault();
 
@@ -659,19 +681,21 @@ function initGalleryInteraction() {
     );
 
 
-    /* =========================================
-       Pointer Up
-    ========================================= */
+    /* -----------------------------------------------------
+       结束拖动
+    ----------------------------------------------------- */
 
-    function endPointer(event) {
+    function endDrag(event) {
 
-        if (!isPointerDown) return;
-
-
-        isPointerDown = false;
+        if (!isDragging) return;
 
 
-        gallery.classList.remove("active");
+        isDragging = false;
+
+
+        gallery.classList.remove(
+            "active"
+        );
 
 
         try {
@@ -684,71 +708,63 @@ function initGalleryInteraction() {
 
 
         /*
-         * 开始惯性滚动
+         * 启动惯性
          */
-        momentumAnimation =
+        momentumFrame =
             requestAnimationFrame(
-                applyMomentum
+                momentumScroll
             );
 
 
         /*
-         * 延迟清除拖动状态
-         *
-         * 防止拖动结束后立刻触发图片点击。
+         * 稍微延迟清除，
+         * 防止拖动结束立即触发 click
          */
-        setTimeout(function () {
+        setTimeout(
+            function () {
 
-            hasDragged = false;
+                wasDragged = false;
 
-        }, 50);
+            },
+            80
+        );
 
     }
 
 
     gallery.addEventListener(
         "pointerup",
-        endPointer
+        endDrag
     );
 
 
     gallery.addEventListener(
         "pointercancel",
-        endPointer
+        endDrag
     );
 
 
+    /*
+     * 防止图片拖动
+     */
     gallery.addEventListener(
-        "lostpointercapture",
-        function () {
+        "dragstart",
+        function (event) {
 
-            if (isPointerDown) {
-
-                isPointerDown = false;
-
-                gallery.classList.remove(
-                    "active"
-                );
-
-            }
+            event.preventDefault();
 
         }
     );
 
 
-    /* =========================================
-       防止拖动时点击图片
-    ========================================= */
-
+    /*
+     * 拖动时禁止图片 click
+     */
     gallery.addEventListener(
         "click",
         function (event) {
 
-            /*
-             * 如果刚刚发生过拖动，
-             * 阻止 click。
-             */
-            if (hasDragged) {
+            if (wasDragged) {
 
                 event.preventDefault();
 
@@ -770,19 +786,29 @@ function initGalleryInteraction() {
 function initImageModal() {
 
     const modal =
-        document.getElementById("imageModal");
+        document.getElementById(
+            "imageModal"
+        );
 
     const modalImg =
-        document.getElementById("modalImage");
+        document.getElementById(
+            "modalImage"
+        );
 
     const modalCaption =
-        document.getElementById("modalCaption");
+        document.getElementById(
+            "modalCaption"
+        );
 
     const modalClose =
-        document.getElementById("modalClose");
+        document.getElementById(
+            "modalClose"
+        );
 
     const gallery =
-        document.getElementById("gallery");
+        document.getElementById(
+            "gallery"
+        );
 
 
     if (
@@ -799,10 +825,7 @@ function initImageModal() {
 
 
     /*
-     * 使用事件委托。
-     *
-     * 因为照片是由 JS 动态生成的，
-     * 所以不能在初始化时直接给每一张图片绑定事件。
+     * 使用事件委托
      */
     gallery.addEventListener(
         "click",
@@ -824,15 +847,15 @@ function initImageModal() {
             if (!card) return;
 
 
-            const textElements =
+            const paragraphs =
                 card.querySelectorAll("p");
 
 
             let caption = "";
 
 
-            textElements.forEach(
-                function (element, index) {
+            paragraphs.forEach(
+                function (p, index) {
 
                     if (index > 0) {
 
@@ -841,26 +864,27 @@ function initImageModal() {
                     }
 
                     caption +=
-                        element.textContent;
+                        p.textContent;
 
                 }
             );
 
 
-            modalImg.src = img.src;
+            modalImg.src =
+                img.src;
 
-            modalImg.alt = img.alt;
+            modalImg.alt =
+                img.alt;
 
             modalCaption.textContent =
                 caption;
 
 
-            modal.classList.add("show");
+            modal.classList.add(
+                "show"
+            );
 
 
-            /*
-             * 防止弹窗打开后背景页面继续滚动
-             */
             document.body.classList.add(
                 "modal-open"
             );
@@ -870,7 +894,7 @@ function initImageModal() {
 
 
     /*
-     * 点击关闭
+     * 关闭
      */
     modalClose.addEventListener(
         "click",
@@ -879,7 +903,7 @@ function initImageModal() {
 
 
     /*
-     * 点击黑色背景关闭
+     * 点击背景关闭
      */
     modal.addEventListener(
         "click",
@@ -906,7 +930,9 @@ function initImageModal() {
 
             if (
                 event.key === "Escape" &&
-                modal.classList.contains("show")
+                modal.classList.contains(
+                    "show"
+                )
             ) {
 
                 closeModal();
@@ -919,7 +945,9 @@ function initImageModal() {
 
     function closeModal() {
 
-        modal.classList.remove("show");
+        modal.classList.remove(
+            "show"
+        );
 
         document.body.classList.remove(
             "modal-open"
@@ -931,13 +959,8 @@ function initImageModal() {
 
 
 /* =========================================================
-   8. HTML 安全处理
+   8. HTML 字符转义
 ========================================================= */
-
-/*
- * 因为 data.js 中的内容最终会进入 innerHTML，
- * 所以对文字进行简单转义。
- */
 
 function escapeHTML(text) {
 
