@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>Ufinite</title>
+    <title>Ufinite-我们滴主页</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,25 +11,78 @@
         <p>U find ideal nature in the eyes</p>
     </header>
 
-    <!-- 计时器 -->
+    <!-- 爱情计时器 -->
     <div class="love-timer-container">
         <div id="loveTimer" class="love-timer"></div>
         <div class="timer-subtitle">“活到800岁”</div>
     </div>
 
-    <!-- 相册画廊 -->
+    <!-- 相册画廊（支持横向滚动、拖拽 & 宽屏横图） -->
     <main class="gallery">
-        <div class="photo">
-            <img src="images/1.jpg" alt="云1">
-            <p>老师画的好看爱心云</p>
+        <div class="photo landscape">
+            <img src="images/202609111.jpg" alt="First Dinner：wmt200元蛋炒饭">
+            <p>2026.09.11</p>
+            <p>First Dinner：wmt200元蛋炒饭</p>
         </div>
+
         <div class="photo">
-            <img src="images/2.jpg" alt="合照">
-            <p>吴老师的佳作</p>
+            <img src="images/202609112.jpg" alt="给小猫照镜子">
+            <p>2026.09.12</p>
+            <p>给小猫照镜子</p>
         </div>
+        
         <div class="photo">
-            <img src="images/3.jpg" alt="云2">
-            <p>老师画的不太好看爱心云</p>
+            <img src="images/202609121.jpg" alt="First Date：上海共青公园">
+            <p>2026.09.12</p>
+            <p>First Date：上海共青公园</p>
+        </div>
+
+        <div class="photo">
+            <img src="images/202609123.jpg" alt="梧桐与🍁">
+            <p>2026.09.12</p>
+            <p>梧桐与🍁</p>
+        </div>
+
+        <div class="photo landscape">
+            <img src="images/202609124.jpg" alt="波光粼粼的静谧油画">
+            <p>2026.09.12</p>
+            <p>波光粼粼的静谧油画</p>
+        </div>
+
+        <div class="photo landscape">
+            <img src="images/202609122.jpg" alt="一起做的晚饭：有咸醋排骨">
+            <p>2026.09.12</p>
+            <p>一起做的晚饭：有咸醋排骨</p>
+        </div>
+
+        <div class="photo landscape">
+            <img src="images/202609125.jpg" alt="Monopoly!">
+            <p>2026.09.12</p>
+            <p>Monopoly!</p>
+        </div>
+        
+        <div class="photo landscape">
+            <img src="images/202609131.jpg" alt="First KTV：嗯？？好像有人动嘴">
+            <p>2026.09.13</p>
+            <p>First KTV：嗯？？好像有人动嘴</p>
+        </div>
+
+        <div class="photo">
+            <img src="images/202609141.jpg" alt=童童的云">
+            <p>2026.09.14</p>
+            <p>童童的云</p>
+        </div>
+
+        <div class="photo">
+            <img src="images/202609142.jpg" alt=洲洲的云">
+            <p>2026.09.14</p>
+            <p>洲洲的云</p>
+        </div>
+
+        <div class="photo">
+            <img src="images/secret/202609201.jpg" alt=线上100Days【仅离线】">
+            <p>2026.09.21</p>
+            <p>线上100Days</p>
         </div>
     </main>
 
@@ -38,7 +91,9 @@
         <div class="memory-header">
             <h2>记录一下</h2>
         </div>
-<!-- 回忆1 -->
+
+        <div class="memory-timeline">
+            <!-- 回忆1 -->
             <div class="memory-item">
                 <div class="memory-date">2020.03.30</div>
                 <div class="memory-content">
@@ -46,8 +101,7 @@
                     <div class="memory-text">有人想当鸭子的爸爸？？不能理解</div>
                 </div>
             </div>
-        </div>
-        <div class="memory-timeline">
+            
             <!-- 回忆2 -->
             <div class="memory-item">
                 <div class="memory-date">2026.09.06.凌晨</div>
@@ -56,6 +110,7 @@
                     <div class="memory-text">wmt口出狂言。</div>
                 </div>
             </div>
+            
             <!-- 回忆3 -->
             <div class="memory-item">
                 <div class="memory-date">2025.09.11-13</div>
@@ -64,12 +119,13 @@
                     <div class="memory-text">上海共青森林公园</div>
                 </div>
             </div>
-            
+        </div>
     </section>
 
     <footer>
         <p>斯人若彩虹，遇上方知有</p>
     </footer>
+
     <!-- 极简音乐播放器 -->
     <div class="music-player">
         <audio id="bgMusic" loop>
@@ -77,8 +133,17 @@
         </audio>
         <button id="musicBtn" class="music-btn">🎵 Play Music</button>
     </div>
-    <!-- 计时器 -->
+
+    <!-- 点击放大图的预览弹窗 -->
+    <div id="imageModal" class="image-modal">
+        <span class="modal-close" id="modalClose">&times;</span>
+        <img id="modalImage" src="" alt="大图预览">
+        <div id="modalCaption" class="modal-caption"></div>
+    </div>
+
+    <!-- 脚本区域 -->
     <script>
+        // 1. 爱情计时器逻辑
         function initLoveTimer() {
             const startDate = new Date('2026-09-06');
             function updateLoveTimer() {
@@ -100,7 +165,7 @@
         }
         document.addEventListener('DOMContentLoaded', initLoveTimer);
 
-        
+        // 2. 音乐播放控制逻辑
         const audio = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicBtn');
 
@@ -108,11 +173,131 @@
             if (audio.paused) {
                 audio.play();
                 musicBtn.innerHTML = '⏸ Pause Music';
-                musicBtn.classList.add('playing'); // 播放时改变按钮样式
+                musicBtn.classList.add('playing');
             } else {
                 audio.pause();
                 musicBtn.innerHTML = '🎵 Play Music';
-                musicBtn.classList.remove('playing'); // 暂停时恢复样式
+                musicBtn.classList.remove('playing');
+            }
+        });
+
+        // 3. 画廊交互：鼠标按住拖拽（带惯性） & 自动平滑滚动 & 点击查看大图
+        const gallery = document.querySelector('.gallery');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        let isDragging = false; 
+
+        // === 新增：惯性与自动滚动参数 ===
+        let lastX = 0; // 记录上一帧的X坐标
+        let velocity = 0; // 拖拽产生的初始瞬时速度
+        let momentumID;
+        let isHovered = false; // 判断鼠标是否悬停在画廊上
+
+        // 监听鼠标进入和离开，控制是否暂停自动滚动
+        gallery.addEventListener('mouseenter', () => isHovered = true);
+        gallery.addEventListener('mouseleave', () => isHovered = false);
+
+        // --- 功能 A：自动平滑滚动 ---
+        function autoScroll() {
+            // 当没有拖拽、没有产生惯性滑动、且鼠标没有悬停时，执行自动向右滚动
+            if (!isDown && Math.abs(velocity) < 0.5 && !isHovered) {
+                gallery.scrollLeft += 0.8; // 数值越大，自动滚动越快
+                // 滚到底部时自动无缝回到开头（允许 2px 的误差）
+                if (gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth - 2) {
+                    gallery.scrollLeft = 0;
+                }
+            }
+            requestAnimationFrame(autoScroll);
+        }
+        requestAnimationFrame(autoScroll); // 页面加载后立即启动自动滚动
+
+        // --- 功能 B：拖拽后的惯性衰减 ---
+        function applyMomentum() {
+            if (isDown) return; // 如果重新按下了鼠标，立刻停止惯性
+            if (Math.abs(velocity) > 0.5) {
+                gallery.scrollLeft -= velocity;
+                velocity *= 0.95; // 摩擦力衰减乘数：数值越接近1，松手后滑得越远
+                momentumID = requestAnimationFrame(applyMomentum);
+            } else {
+                velocity = 0; // 速度过小时归零，完全停止
+            }
+        }
+
+        // --- 核心拖拽逻辑更新 ---
+        gallery.addEventListener('mousedown', (e) => {
+            isDown = true;
+            isDragging = false; 
+            gallery.classList.add('active');
+            startX = e.pageX - gallery.offsetLeft;
+            lastX = e.pageX; // 记录按下时的初始位置
+            scrollLeft = gallery.scrollLeft;
+            
+            cancelAnimationFrame(momentumID); // 鼠标按下时，立刻打断之前的惯性滑动
+            velocity = 0;
+        });
+
+        gallery.addEventListener('mouseleave', () => {
+            isHovered = false;
+            if (!isDown) return;
+            isDown = false;
+            gallery.classList.remove('active');
+            momentumID = requestAnimationFrame(applyMomentum); // 鼠标移出屏幕外时触发惯性
+        });
+
+        gallery.addEventListener('mouseup', () => {
+            isDown = false;
+            gallery.classList.remove('active');
+            momentumID = requestAnimationFrame(applyMomentum); // 松开鼠标时触发惯性
+        });
+
+        gallery.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            isDragging = true; 
+            
+            const currentX = e.pageX;
+            const x = currentX - gallery.offsetLeft;
+            const walk = (x - startX) * 2; // 乘2代表拖拽灵敏度
+            
+            // 计算瞬时拖动速度（当前X坐标减去上一帧X坐标，再乘上灵敏度）
+            velocity = (currentX - lastX) * 2;
+            lastX = currentX; // 更新上一帧位置
+            
+            gallery.scrollLeft = scrollLeft - walk;
+        });
+
+        // --- 点击查看大图逻辑 (保持原样) ---
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        const modalClose = document.getElementById('modalClose');
+        const galleryImages = document.querySelectorAll('.gallery .photo img');
+
+        galleryImages.forEach(img => {
+            img.addEventListener('click', function(e) {
+                // 如果用户是在拖拽，则阻止触发点击
+                if (isDragging) {
+                    e.preventDefault();
+                    return;
+                }
+                modal.classList.add('show');
+                modalImg.src = this.src;
+                
+                const pTags = this.parentElement.querySelectorAll('p');
+                let captionText = '';
+                pTags.forEach(p => captionText += p.textContent + ' ');
+                modalCaption.textContent = captionText;
+            });
+        });
+
+        modalClose.addEventListener('click', () => {
+            modal.classList.remove('show');
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
             }
         });
     </script>
