@@ -5,19 +5,47 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    initGallery();
+    try {
+        initGallery();
+    } catch (error) {
+        console.error("initGallery 失败：", error);
+    }
 
-    initMemoryTimeline();
+    try {
+        initMemoryTimeline();
+    } catch (error) {
+        console.error("initMemoryTimeline 失败：", error);
+    }
 
-    initLoveTimer();
+    try {
+        initLoveTimer();
+    } catch (error) {
+        console.error("initLoveTimer 失败：", error);
+    }
 
-    initWelcomeCover();
+    try {
+        initWelcomeCover();
+    } catch (error) {
+        console.error("initWelcomeCover 失败：", error);
+    }
 
-    initMusicPlayer();
+    try {
+        initMusicPlayer();
+    } catch (error) {
+        console.error("initMusicPlayer 失败：", error);
+    }
 
-    initGalleryInteraction();
+    try {
+        initGalleryInteraction();
+    } catch (error) {
+        console.error("initGalleryInteraction 失败：", error);
+    }
 
-    initImageModal();
+    try {
+        initImageModal();
+    } catch (error) {
+        console.error("initImageModal 失败：", error);
+    }
 
 });
 
