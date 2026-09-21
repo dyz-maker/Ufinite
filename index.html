@@ -30,7 +30,7 @@
                 点击下方按钮，进入 Ufinite~
             </p>
 
-            <button id="enterBtn" class="enter-btn">
+            <button id="enterButton" class="enter-btn">
                 ✨ 进入主页 ✨
             </button>
 
@@ -112,9 +112,14 @@
     ========================================== -->
     <div class="music-player">
 
-        <audio id="bgMusic" loop>
-            <source src="music/wbintolove.mp3" type="audio/mpeg">
-        </audio>
+    <audio
+      id="bgMusic"
+      loop
+      preload="auto"
+      playsinline
+      webkit-playsinline>
+      <source src="music/wbintolove.mp3" type="audio/mpeg">
+    </audio>
 
         <button id="musicBtn" class="music-btn">
             🎵 Play Music
