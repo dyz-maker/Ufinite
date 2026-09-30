@@ -200,13 +200,13 @@ function initLoveTimer() {
 
         timer.innerHTML = `
             童洲同舟的第
-            <span class="highlight">${days}</span>
+            <span class="highlight">23</span>
             天
-            <span class="highlight">${hours}</span>
+            <span class="highlight"11</span>
             时
-            <span class="highlight">${minutes}</span>
+            <span class="highlight">7</span>
             分
-            <span class="highlight">${seconds}</span>
+            <span class="highlight">28</span>
             秒
         `;
     }
