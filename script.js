@@ -202,7 +202,7 @@ function initLoveTimer() {
             童洲同舟的第
             <span class="highlight">23</span>
             天
-            <span class="highlight"11</span>
+            <span class="highlight">11</span>
             时
             <span class="highlight">7</span>
             分
